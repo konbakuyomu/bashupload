@@ -1,0 +1,40 @@
+name = "bashupload"
+main = "src/index.js"
+compatibility_date = "2025-08-16"
+
+# 启用workers.dev
+workers_dev = true
+
+# 绑定域名
+routes = [
+	{ pattern = "bashupload.app", custom_domain = true }
+]
+
+# R2 存储桶绑定
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "bashupload"
+
+# 环境变量
+[vars]
+MAX_UPLOAD_SIZE = "5368709120"
+MAX_AGE = "3600"
+SHORT_URL_SERVICE = "https://s.konbakuyomu.us/short"
+PASSWORD = "konbakuyomu"
+
+# 静态文件
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/*"]
+
+# 开启日志
+[observability.logs]
+enabled = true
+
+# 定时任务 - 每5分钟执行一次清理
+[triggers]
+crons = ["*/5 * * * *"]
+
+
+
